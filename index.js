@@ -26,35 +26,35 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect()
+    // await client.connect()
     // Send a ping to confirm a successful connection
     const coffedata = client.db("coffeDB").collection("coffe");
     
-    app.post('/coffe',async(req,res)=>{
+    app.post('/api/coffe',async(req,res)=>{
       const newcoffe = req.body
       console.log(newcoffe)
       const result = await coffedata.insertOne(newcoffe)
       res.send(result)
     })
-    app.get('/coffee', async(req,res)=>{
+    app.get('/api/coffe', async(req,res)=>{
       const cursor = coffedata.find()
       const result = await cursor.toArray();
       res.send(result)
 
     })
-    app.get('/coffee/:id',async(req,res)=>{
+    app.get('/api/coffe/:id',async(req,res)=>{
       const id = req.params.id
       const quary =  {_id: new ObjectId(id)}
       const result = await coffedata.findOne(quary)
       res.send(result)
     })
-    app.delete('/coffee/:id',async(req,res)=>{
+    app.delete('/api/coffe/:id',async(req,res)=>{
       const id = req.params.id
       const quary = {_id: new ObjectId(id)}
       const result = await coffedata.deleteOne(quary)
       res.send(result)
     })
-    app.put('/coffee/:id',async(req,res)=>{
+    app.put('/api/coffe/:id',async(req,res)=>{
       const id = req.params.id
       const filter = {_id: new ObjectId(id)}
       const options = { upsert: true };
